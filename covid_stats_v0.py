@@ -9,14 +9,13 @@ import numpy as np
 from scipy import optimize
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-import confidence as cf
+from epydemics import confidence as cf, sir_model
 from scipy.linalg import svd
 import matplotlib.gridspec as gridspec
 import os
 import matplotlib.ticker as mticker
 from matplotlib.ticker import ScalarFormatter
 from matplotlib.ticker import EngFormatter
-import sir_model
 import datetime
 
 # Source https://ourworldindata.org/coronavirus-source-data
@@ -64,7 +63,7 @@ removed_color = 'C4'
 
 def fobj_sir(p: np.ndarray, time: np.ndarray, infected_: np.ndarray, 
              removed_: np.ndarray, population: float, I0_: int, R0_: int = 0):
-    sol = sir_model.sir_model(time, N=population, beta=p[0], gamma=p[1], 
+    sol = sir_model.sir_model(time, N=population, beta=p[0], gamma=p[1],
                               I0=I0_, R0=R0_)
     y = sol.sol(time)
     S, I, R = y

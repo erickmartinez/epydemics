@@ -9,14 +9,13 @@ import numpy as np
 from scipy import optimize
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-import confidence as cf
 from scipy.linalg import svd
 import matplotlib.gridspec as gridspec
 import os
 import matplotlib.ticker as mticker
 from matplotlib.ticker import ScalarFormatter
 from matplotlib.ticker import EngFormatter
-import seir_model
+from epydemics import seir_model, confidence as cf
 import datetime
 
 # Source https://ourworldindata.org/coronavirus-source-data
@@ -68,7 +67,7 @@ removed_color = 'C4'
 def fobj_seir(p: np.ndarray, time: np.ndarray, infected_: np.ndarray, 
              removed_: np.ndarray, population: float, I0_: int, R0_: int = 0):
     p = np.power(10, p)
-    sol = seir_model.seir_model(time, N=population, beta=p[0], gamma=p[1], 
+    sol = seir_model.seir_model(time, N=population, beta=p[0], gamma=p[1],
                                 sigma=p[2], I0=I0_, R0=R0_, E0=p[3])
     y = sol.sol(time)
     S, E, I, R = y
@@ -82,7 +81,7 @@ def fobj_seir(p: np.ndarray, time: np.ndarray, infected_: np.ndarray,
 
 def seir(time: np.ndarray, p: np.ndarray, population: float, I0_: int, R0_: int = 0):
     p = np.power(10, p)
-    sol = seir_model.seir_model(time, N=population, beta=p[0], gamma=p[1], 
+    sol = seir_model.seir_model(time, N=population, beta=p[0], gamma=p[1],
                                 sigma=p[2], I0=I0_, R0=R0_, E0=p[3])
     y = sol.sol(time)
     S, E, I, R = y

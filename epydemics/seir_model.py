@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 from scipy.optimize import OptimizeResult
 import numpy as np
 from scipy.integrate import solve_ivp
@@ -7,7 +7,7 @@ from scipy.integrate import solve_ivp
 # https://www.idmod.org/docs/hiv/model-seir.html
 # https://www.idmod.org/docs/typhoid/model-seir.html
 # The SIR model differential equations. (without vital kinetics)
-def sir(t: float, y: List[float, float, float, float], N: int, beta: float, gamma: float, sigma: float):
+def seir(t: float, y: List[float], N: Union[int, float], beta: float, gamma: float, sigma: float):
     """
     System of ODE for the Susceptible-Exposed-Infected-Recovered model without vital kinetics
 
@@ -47,7 +47,7 @@ def sir(t: float, y: List[float, float, float, float], N: int, beta: float, gamm
     return [dSdt, dEdt, dIdt, dRdt]
 
 
-def seir_model(t: np.ndarray, N: int, beta: float, gamma: float, sigma: float,
+def seir_model(t: np.ndarray, N: Union[int, float], beta: float, gamma: float, sigma: float,
                **kwargs):
     """
     Solves the Susceptible-Exposed-Infected-Removed ODE
@@ -91,7 +91,7 @@ def seir_model(t: np.ndarray, N: int, beta: float, gamma: float, sigma: float,
     y0 = S0, E0, I0, R0
     # Integrate the SIR equations over the time grid, t.
     # ret = odeint(deriv, y0, t, args=(N, beta, gamma))
-    sol = solve_ivp(sir, [np.amin(t), np.amax(t)], y0, t_eval=t,
+    sol = solve_ivp(seir, [np.amin(t), np.amax(t)], y0, t_eval=t,
                     args=(N, beta, gamma, sigma),
                     method='DOP853',
                     dense_output=True)

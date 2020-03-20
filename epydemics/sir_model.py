@@ -1,11 +1,11 @@
 import numpy as np
 from scipy.integrate import solve_ivp
 from scipy.optimize import OptimizeResult
-from typing import List
+from typing import List, Union
 
 
 # The SIR model differential equations.
-def sir(t: float, y: List[float, float, float], N: int, beta: float, gamma: float):
+def sir(t: float, y: List[float, float, float], N: Union[int, float], beta: float, gamma: float):
     """
     System of ODE for the Susceptible-Infected-Recovered model without vital kinetics
     Parameters
